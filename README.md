@@ -14,10 +14,10 @@ xdg-basedir is a utility library to make conforming to the
 extern crate xdg_basedir;
 
 #![cfg(unix)]
-use xdg;
+use xdg_basedir::*;
 use std::path::PathBuf;
 ...
-let data_home: PathBuf = try!(xdg::get_data_home());
+let data_home: PathBuf = try!(get_data_home());
 ...
 ```
 
