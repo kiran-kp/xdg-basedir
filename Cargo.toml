@@ -1,17 +1,17 @@
 [package]
 
-name = "xdg-rs"
+name = "xdg-basedir"
 version = "0.1.3"
-authors = ["skullzzz <kiran.eighty9@gmail.com>"]
+authors = ["Kiran Purushothaman <kiran.purush@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/skullzzz/xdg-rs"
-documentation = "http://skullzzz.github.io/xdg-rs/xdg/index.html"
+repository = "https://github.com/kiran-kp/xdg-basedir"
+documentation = "http://kiran-kp.github.io/xdg-basedir/xdg/index.html"
 keywords = ["xdg", "basedir"]
 readme = "README.md"
 description = "Library to help with the XDG basedir spec"
 
 [lib]
-name = "xdg"
+name = "xdg_basedir"
 
 [features]
 unstable = []

@@ -1,23 +1,23 @@
 #![cfg_attr(feature = "unstable", feature(fs_ext, libc, convert))]
 
-//! xdg-rs is a utility library to make conforming to the
+//! xdg-basedir is a utility library to make conforming to the
 //! [XDG basedir specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) easier.
 //!
 //! #Example
 //! ```ignore
 //! #![cfg(unix)]
-//! extern crate xdg;
+//! extern crate xdg_basedir;
 //!
 //! #![cfg(unix)]
-//! use xdg;
+//! use xdg_basedir::*;
 //! use std::path::PathBuf;
 //! ...
-//! let data_home: PathBuf = try!(xdg::get_data_home());
+//! let data_home: PathBuf = try!(get_data_home());
 //! ...
 //! ```
 //!
 //! Alternate implementation and some initial source borrowed from [rust-xdg](https://github.com/o11c/rust-xdg).
-//! The APIs provided by ```rust-xdg``` and ```xdg-rs``` are different.
+//! The APIs provided by ```rust-xdg``` and ```xdg-basedir``` are different.
 
 #[cfg(feature = "unstable")]
 extern crate libc;

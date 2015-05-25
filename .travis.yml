@@ -1,26 +1,18 @@
 language: rust
-# run builds for both the nightly and beta branch
 rust:
-    - stable
-    - nightly
-
-# load travis-cargo
+- stable
+- nightly
 before_script:
-    - |
-        pip install 'travis-cargo<0.2' --user &&
-        export PATH=$HOME/.local/bin:$PATH
-
-# the main build
+- |
+  pip install 'travis-cargo<0.2' --user &&
+  export PATH=$HOME/.local/bin:$PATH
 script:
-    - |
-        travis-cargo build &&
-        travis-cargo test &&
-        travis-cargo --only stable doc
+- |
+  travis-cargo build &&
+  travis-cargo test &&
+  travis-cargo --only stable doc
 after_success:
-    # upload the documentation from the build with beta (automatically only actually
-    # runs on the master branch)
-    - travis-cargo --only stable doc-upload
-
+- travis-cargo --only stable doc-upload
 env:
   global:
-    secure: aq1DU23MPBMcmBOIzQssyArz+G2ykAuNzAeMmQAyylSwkVig/f2Hpdppg0opEZhEsXQe8SnNr4yQ5iHF/aI/5Z0bDzxcNHIWskZEtHB0P0toPi+X7clMpndwrBaGoRp6jCg3w6jW2jwvJeHI4dxW+J4is64o1Ks823kqk0mh3is=
+    secure: Sn6/bTF8i2wGcK8qhzpCel2zaKP67kvqQR5G50udQPHMlSm+CFN0yfEeuLY/oEVmLeIn3hS04Zxlj7RuqUk3w7mAJtTu4Ojfcdd4Z2mxkdQE4Egm7U1i8XAOJObAjfIc5gWmAI+UeUpzNGOBSvzubvHZ/4wWnteDOYXWcXjTKwG6pYU5N0OSIOcxbSBoIxuiz7GSxnSRpGHcR/2kjNbkx80E6K5N6+JOyJO9jMHBnYjePCOTk5b5W6GHuxyeD6oBqEs+qb1jOzWG4V6ivetBMfpjuR0kAjVZbCv/GV6I5OqcOiQvFFQHrsims6tor42G3EAGr4CnM2gE/AtDXxdqZ97P75JmYKoMUBTrs18KfzL86g77OndzKoqOp2cQCHShVk0S7Ai7yUR3yhHYxXxI0cy1df8aoheVIHpqX3WIg9ycmex2z/ZXzcpJeMpH76X0wGKIXsztVk9keBfILSUi8it9Poco7MZJsteSKBOUyq31bpjZx+Gd1ugBWj7JoV91Yy9XeeMys+hn4AMC3PhgYKQ2XajSBGZ5aVQaWsxGLzgS+ROFrNq5YzqpvW2x81exri9f8Zs/JY9yMJmf0sc20+GmTyJY0aTWnWhlVZaRyloKYOKKt3A2tiMjP/MDFg7LWiZdGCLUFT2nEYgtrHQpyf2peBhtOd4Md30uJefVDKo=
