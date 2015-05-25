@@ -1,11 +1,11 @@
 [package]
 
 name = "xdg-basedir"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Kiran Purushothaman <kiran.purush@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/kiran-kp/xdg-basedir"
-documentation = "http://kiran-kp.github.io/xdg-basedir/xdg/index.html"
+documentation = "http://kiran-kp.github.io/xdg-basedir/xdg_basedir/index.html"
 keywords = ["xdg", "basedir"]
 readme = "README.md"
 description = "Library to help with the XDG basedir spec"
