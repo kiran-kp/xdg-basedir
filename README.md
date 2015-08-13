@@ -3,7 +3,7 @@ xdg-basedir
 
 [![Build Status](https://travis-ci.org/kiran-kp/xdg-basedir.svg)](https://travis-ci.org/kiran-kp/xdg-basedir) [![](http://meritbadge.herokuapp.com/xdg-basedir)](https://crates.io/crates/xdg-basedir)
 
-[Documentation](http://kiran-kp.github.io/xdg-basedir/xdg/index.html)
+[Documentation](http://kiran-kp.github.io/xdg-basedir/xdg_basedir/index.html)
 
 xdg-basedir is a utility library to make conforming to the
 [XDG basedir specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) easier.
