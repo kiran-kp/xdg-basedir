@@ -1,8 +1,9 @@
+use error::*;
+
 use std::convert::From;
 use std::env::{home_dir, split_paths};
 use std::ffi::OsString;
 use std::path::PathBuf;
-use error::{Error, Result, XdgError};
 
 /// Get path from environment variable's value or a default path relative to home_dir
 pub fn get_env_path_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Result<PathBuf>
