@@ -6,16 +6,16 @@ use std::ffi::OsString;
 use std::path::PathBuf;
 
 /// Get path from environment variable's value or a default path relative to home_dir
-pub fn get_env_path_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Result<PathBuf>
+pub fn get_path_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_path(get_env_var, env_var)
+    get_path(get_env_var, env_var)
         .or(home_dir().map(|p| p.join(default)))
         .ok_or(Error::from(XdgError::NoHomeDir))
 }
 
 /// Get an environment variable's value as a PathBuf.
-pub fn get_env_path<'a, F>(get_env_var: &'a F, env_var: &'a str) -> Option<PathBuf>
+pub fn get_path<'a, F>(get_env_var: &'a F, env_var: &'a str) -> Option<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
     get_env_var(env_var)
@@ -25,7 +25,7 @@ pub fn get_env_path<'a, F>(get_env_var: &'a F, env_var: &'a str) -> Option<PathB
         .next()
 }
 
-pub fn get_env_paths_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Vec<PathBuf>
+pub fn get_paths_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Vec<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
     let path_string = (*get_env_var)(env_var)

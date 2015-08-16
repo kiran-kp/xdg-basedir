@@ -45,7 +45,7 @@ use std::path::PathBuf;
 pub fn get_data_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_path_or_default(get_env_var, "XDG_DATA_HOME", ".local/share")
+    env_path::get_path_or_default(get_env_var, "XDG_DATA_HOME", ".local/share")
 }
 
 /// Get the data home directory.
@@ -62,7 +62,7 @@ pub fn get_data_home() -> Result<PathBuf> {
 pub fn get_data_dirs_from_env<'a, F>(get_env_var: &'a F) -> Vec<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_paths_or_default(get_env_var, "XDG_DATA_DIRS", "/usr/local/share:/usr/share")
+    env_path::get_paths_or_default(get_env_var, "XDG_DATA_DIRS", "/usr/local/share:/usr/share")
 }
 
 /// Get the data directories.
@@ -79,7 +79,7 @@ pub fn get_data_dirs() -> Vec<PathBuf> {
 pub fn get_config_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_path_or_default(get_env_var, "XDG_CONFIG_HOME", ".config")
+    env_path::get_path_or_default(get_env_var, "XDG_CONFIG_HOME", ".config")
 }
 /// Get the config home directory.
 ///
@@ -95,7 +95,7 @@ pub fn get_config_home() -> Result<PathBuf> {
 pub fn get_config_dirs_from_env<'a, F>(get_env_var: &'a F) -> Vec<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_paths_or_default(get_env_var, "XDG_CONFIG_DIRS", "/etc/xdg")
+    env_path::get_paths_or_default(get_env_var, "XDG_CONFIG_DIRS", "/etc/xdg")
 }
 
 /// Get the config directories.
@@ -112,7 +112,7 @@ pub fn get_config_dirs() -> Vec<PathBuf> {
 pub fn get_cache_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_path_or_default(get_env_var, "XDG_CACHE_HOME", ".cache")
+    env_path::get_path_or_default(get_env_var, "XDG_CACHE_HOME", ".cache")
 }
 
 /// Get the cache home directory.
@@ -130,7 +130,7 @@ pub fn get_cache_home() -> Result<PathBuf> {
 pub fn get_runtime_dir_from_env<'a, F>(get_env_var: &'a F) -> Option<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    env_path::get_env_path(get_env_var, "XDG_RUNTIME_DIR")
+    env_path::get_path(get_env_var, "XDG_RUNTIME_DIR")
 }
 
 /// Get ```$XDG_RUNTIME_DIR``` if found in the environment.
