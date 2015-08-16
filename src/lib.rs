@@ -24,11 +24,12 @@ extern crate libc;
 
 pub mod error;
 
+mod env_path;
+
 pub use error::*;
 
-use std::convert::From;
-use std::env::{self, home_dir, split_paths};
 use std::ffi::OsString;
+use std::env;
 use std::path::PathBuf;
 
 #[cfg(feature = "unstable")]
@@ -45,7 +46,7 @@ use std::path::Path;
 pub fn get_data_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_path_or_default(get_env_var, "XDG_DATA_HOME", ".local/share")
+    env_path::get_env_path_or_default(get_env_var, "XDG_DATA_HOME", ".local/share")
 }
 
 /// Get the data home directory.
@@ -62,7 +63,7 @@ pub fn get_data_home() -> Result<PathBuf> {
 pub fn get_data_dirs_from_env<'a, F>(get_env_var: &'a F) -> Vec<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_paths_or_default(get_env_var, "XDG_DATA_DIRS", "/usr/local/share:/usr/share")
+    env_path::get_env_paths_or_default(get_env_var, "XDG_DATA_DIRS", "/usr/local/share:/usr/share")
 }
 
 /// Get the data directories.
@@ -79,7 +80,7 @@ pub fn get_data_dirs() -> Vec<PathBuf> {
 pub fn get_config_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_path_or_default(get_env_var, "XDG_CONFIG_HOME", ".config")
+    env_path::get_env_path_or_default(get_env_var, "XDG_CONFIG_HOME", ".config")
 }
 /// Get the config home directory.
 ///
@@ -95,7 +96,7 @@ pub fn get_config_home() -> Result<PathBuf> {
 pub fn get_config_dirs_from_env<'a, F>(get_env_var: &'a F) -> Vec<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_paths_or_default(get_env_var, "XDG_CONFIG_DIRS", "/etc/xdg")
+    env_path::get_env_paths_or_default(get_env_var, "XDG_CONFIG_DIRS", "/etc/xdg")
 }
 
 /// Get the config directories.
@@ -112,7 +113,7 @@ pub fn get_config_dirs() -> Vec<PathBuf> {
 pub fn get_cache_home_from_env<'a, F>(get_env_var: &'a F) -> Result<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_path_or_default(get_env_var, "XDG_CACHE_HOME", ".cache")
+    env_path::get_env_path_or_default(get_env_var, "XDG_CACHE_HOME", ".cache")
 }
 
 /// Get the cache home directory.
@@ -130,7 +131,7 @@ pub fn get_cache_home() -> Result<PathBuf> {
 pub fn get_runtime_dir_from_env<'a, F>(get_env_var: &'a F) -> Option<PathBuf>
     where F: Fn(&'a str) -> Option<OsString>
 {
-    get_env_path(get_env_var, "XDG_RUNTIME_DIR")
+    env_path::get_env_path(get_env_var, "XDG_RUNTIME_DIR")
 }
 
 /// Get ```$XDG_RUNTIME_DIR``` if found in the environment.
@@ -171,38 +172,6 @@ pub fn test_runtime_dir<P: AsRef<Path>>(path: P) -> Result<()> {
         .map(|attr| (attr.permissions().mode()))
         .and_then(inner::check_permissions)
         .and(inner::test_dir_uid_is_current_user(path.as_ref()))
-}
-
-/// Get path from environment variable's value or a default path relative to home_dir
-fn get_env_path_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Result<PathBuf>
-    where F: Fn(&'a str) -> Option<OsString>
-{
-    get_env_path(get_env_var, env_var)
-        .or(home_dir().map(|p| p.join(default)))
-        .ok_or(Error::from(XdgError::NoHomeDir))
-}
-
-/// Get an environment variable's value as a PathBuf.
-fn get_env_path<'a, F>(get_env_var: &'a F, env_var: &'a str) -> Option<PathBuf>
-    where F: Fn(&'a str) -> Option<OsString>
-{
-    get_env_var(env_var)
-        .map(PathBuf::from)
-        .into_iter()
-        .filter(|x| x.is_absolute())
-        .next()
-}
-
-fn get_env_paths_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default: &'a str) -> Vec<PathBuf>
-    where F: Fn(&'a str) -> Option<OsString>
-{
-    let path_string = (*get_env_var)(env_var)
-        .into_iter()
-        .filter(|x| x != "")
-        .next()
-        .unwrap_or(OsString::from(default));
-
-    split_paths(&path_string).collect()
 }
 
 #[cfg(feature = "unstable")]
