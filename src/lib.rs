@@ -1,4 +1,4 @@
-#![cfg_attr(feature = "unstable", feature(fs_ext, libc, convert))]
+#![cfg_attr(feature = "unstable", feature(libc, convert))]
 
 //! xdg-basedir is a utility library to make conforming to the
 //! [XDG basedir specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) easier.
