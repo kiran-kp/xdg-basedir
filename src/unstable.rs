@@ -1,10 +1,13 @@
 use error::*;
 
-#[cfg(feature = "unstable")]
+use libc::funcs::posix88::stat_::stat;
+use libc::funcs::posix88::unistd::getuid;
+use libc::types::os::arch::posix01::stat as Stat;
+
+use std::ffi::CString;
 use std::fs;
-#[cfg(feature = "unstable")]
+use std::mem;
 use std::os::unix::fs::PermissionsExt;
-#[cfg(feature = "unstable")]
 use std::path::Path;
 
 /// Check that the value set for ```$XDG_RUNTIME_DIR``` is a valid path, has the correct owner and
@@ -30,52 +33,37 @@ use std::path::Path;
 /// character set should be imposed. Files in this directory MAY be subjected to periodic clean-up. To ensure that
 /// your files are not removed, they should have their access time timestamp modified at least once every 6 hours
 /// of monotonic time or the 'sticky' bit should be set on the file.
-#[cfg(feature = "unstable")]
 pub fn test_runtime_dir<P: AsRef<Path>>(path: P) -> Result<()> {
     fs::metadata(&path)
         .or_else(|e| Err(Error::from(e)))
         .map(|attr| (attr.permissions().mode()))
-        .and_then(inner::check_permissions)
-        .and(inner::test_dir_uid_is_current_user(path.as_ref()))
+        .and_then(check_permissions)
+        .and(test_dir_uid_is_current_user(path.as_ref()))
 }
 
-#[cfg(feature = "unstable")]
-mod inner {
-    use super::*;
-    use error::*;
+fn test_dir_uid_is_current_user(path: &Path) -> Result<()> {
+    let p = try!(cstr(path));
+    unsafe {
+        let mut s: Stat = mem::zeroed();
+        stat(p.as_ptr(), &mut s);
 
-    use libc::funcs::posix88::stat_::stat;
-    use libc::funcs::posix88::unistd::getuid;
-    use libc::types::os::arch::posix01::stat as Stat;
-    use std::ffi::CString;
-    use std::mem;
-    use std::path::Path;
+        let uid = getuid();
 
-    pub fn test_dir_uid_is_current_user(path: &Path) -> Result<()> {
-        let p = try!(cstr(path));
-        unsafe {
-            let mut s: Stat = mem::zeroed();
-            stat(p.as_ptr(), &mut s);
-
-            let uid = getuid();
-
-            match uid == s.st_uid {
-                true => Ok(()),
-                false => Result::from(XdgError::IncorrectOwner)
-            }
-        }
-    }
-
-    pub fn check_permissions(permissions: u32) -> Result<()> {
-        match permissions == 0o700 {
+        match uid == s.st_uid {
             true => Ok(()),
-            false => Result::from(XdgError::IncorrectPermissions)
+            false => Result::from(XdgError::IncorrectOwner)
         }
-    }
-
-    fn cstr(path: &Path) -> Result<CString> {
-        path.as_os_str().to_cstring()
-            .ok_or(Error::from(XdgError::InvalidPath))
     }
 }
 
+fn check_permissions(permissions: u32) -> Result<()> {
+    match permissions == 0o700 {
+        true => Ok(()),
+        false => Result::from(XdgError::IncorrectPermissions)
+    }
+}
+
+fn cstr(path: &Path) -> Result<CString> {
+    path.as_os_str().to_cstring()
+        .ok_or(Error::from(XdgError::InvalidPath))
+}
