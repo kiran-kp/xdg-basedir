@@ -1,8 +1,7 @@
 [package]
-
 name = "xdg-basedir"
-version = "0.2.1"
-authors = ["Kiran Purushothaman <kiran.purush@gmail.com>"]
+version = "0.2.2"
+authors = ["Kiran Purushothaman <projects@kirankp.com>"]
 license = "MIT"
 repository = "https://github.com/kiran-kp/xdg-basedir"
 documentation = "http://kiran-kp.github.io/xdg-basedir/xdg_basedir/index.html"
