@@ -28,7 +28,7 @@ The default build of xdg-basedir does not use any unstable libstd features. To e
 
 ```toml
 [dependencies.xdg-basedir]
-version = "*"
+version = "0.2.2"
 features = ["unstable"]
 ```
 
