@@ -22,6 +22,7 @@
 #[cfg(feature = "unstable")]
 extern crate libc;
 
+pub mod app_dirs;
 pub mod dirs;
 pub mod error;
 
@@ -30,6 +31,7 @@ pub mod unstable;
 
 mod env_path;
 
+pub use app_dirs::*;
 pub use dirs::*;
 pub use error::*;
 
