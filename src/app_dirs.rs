@@ -25,4 +25,7 @@ impl AppDirs {
             runtime_dir: dirs::get_runtime_dir().map(|x| x.join(app_name.as_ref()))
         })
     }
+
+    pub fn get_data_file(&self,name: &str) -> error::Result<PathBuf> {
+    }
 }
