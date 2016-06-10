@@ -1,6 +1,6 @@
-use error::*;
+use error::{ErrorKind, Result};
 
-use std::convert::From;
+use std::convert::Into;
 use std::env::{home_dir, split_paths};
 use std::ffi::OsString;
 use std::path::PathBuf;
@@ -11,7 +11,7 @@ pub fn get_path_or_default<'a, F>(get_env_var: &'a F, env_var: &'a str, default:
 {
     get_path(get_env_var, env_var)
         .or(home_dir().map(|p| p.join(default)))
-        .ok_or(Error::from(XdgError::NoHomeDir))
+        .ok_or(ErrorKind::NoHomeDir.into())
 }
 
 /// Get an environment variable's value as a PathBuf.

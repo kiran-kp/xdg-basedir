@@ -17,6 +17,9 @@
 //! Alternate implementation and some initial source borrowed from [rust-xdg](https://github.com/o11c/rust-xdg).
 //! The APIs provided by ```rust-xdg``` and ```xdg-basedir``` are different.
 
+#[macro_use]
+extern crate error_chain;
+
 pub mod dirs;
 pub mod error;
 
