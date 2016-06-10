@@ -11,6 +11,3 @@ description = "Library to help with the XDG basedir spec"
 
 [lib]
 name = "xdg_basedir"
-
-[features]
-unstable = []

@@ -1,5 +1,3 @@
-#![cfg_attr(feature = "unstable", feature(libc, convert))]
-
 //! xdg-basedir is a utility library to make conforming to the
 //! [XDG basedir specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) easier.
 //!
@@ -19,22 +17,13 @@
 //! Alternate implementation and some initial source borrowed from [rust-xdg](https://github.com/o11c/rust-xdg).
 //! The APIs provided by ```rust-xdg``` and ```xdg-basedir``` are different.
 
-#[cfg(feature = "unstable")]
-extern crate libc;
-
 pub mod dirs;
 pub mod error;
-
-#[cfg(feature = "unstable")]
-pub mod unstable;
 
 mod env_path;
 
 pub use dirs::*;
 pub use error::*;
-
-#[cfg(feature = "unstable")]
-pub use unstable::*;
 
 #[cfg(test)]
 mod tests {
